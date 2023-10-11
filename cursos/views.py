@@ -9,7 +9,14 @@ def acessar_curso(request):
                     # HttpResponse('Olá mundo!')
 
 def listar_curso(request):
-    return render(request, 'listar_curso.html')    
+    nome_filtrar = request.GET.get('nome_filtrar')
+
+    if nome_filtrar:
+        curso = Curso.objects.filter(nome__contains=nome_filtrar)
+    else:
+        curso = Curso.objects.all()
+    
+    return render(request, 'listar_curso.html', {'curso':curso})    
 
 def criar_curso(request):
     if request.method == "GET":
