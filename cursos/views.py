@@ -28,6 +28,7 @@ def listar_curso(request):
     return render(request, 'listar_curso.html', {'curso':curso})    
 
 def criar_curso(request):
+
     if request.method == "GET":
         status = request.GET.get('status')
 
@@ -46,3 +47,15 @@ def criar_curso(request):
         curso.save()
 
         return redirect('/curso/criar_curso/?status=1')
+
+def ver_curso(request, id):
+    curso = Curso.objects.get(id=id)
+    return render(request, 'ver_curso.html', {'curso': curso})      #HttpResponse(id)
+
+def deletar_curso(request, id):
+    curso = Curso.objects.get(id=id)
+    #curso.delete()
+    curso.ativo = False
+    curso.save()
+    return redirect('/curso/listar_curso')
+
