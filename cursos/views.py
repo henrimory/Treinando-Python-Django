@@ -10,11 +10,20 @@ def acessar_curso(request):
 
 def listar_curso(request):
     nome_filtrar = request.GET.get('nome_filtrar')
+    carga_horaria_filtrar = request.GET.get('carga_horaria')
 
+
+    curso = Curso.objects.all()
+    
     if nome_filtrar:
-        curso = Curso.objects.filter(nome__contains=nome_filtrar)
-    else:
-        curso = Curso.objects.all()
+        curso = curso.filter(nome__contains=nome_filtrar)
+
+       #curso = Curso.objects.filter(nome__contains=nome_filtrar)
+    #else:
+    #    curso = Curso.objects.all()
+
+    if carga_horaria_filtrar:
+        curso = curso.filter(carga_horaria__gte=carga_horaria_filtrar)
     
     return render(request, 'listar_curso.html', {'curso':curso})    
 
